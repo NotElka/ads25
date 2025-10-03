@@ -30,33 +30,29 @@ class tree{
         }
         return node;
     }
-};
-bool proverka(Node* root,string s){
-    for(int i=0;i<s.size();i++){
-        if(s[i]=='L'){
-            if(root->l==NULL) return false;
-            else root=root->l;
-        }
+    int sz(Node* node){
+        if(node==NULL) return 0;
         else{
-            if(root->r==NULL) return false;
-            else root=root->r;
+            return 1+sz(node->l)+sz(node->r);
         }
     }
-    return true;
-}
+    Node *naidi(Node *node,int d){
+        if(node==NULL or node->data==d)
+            return node;
+        if(node->data>d)
+            return naidi(node->l,d);
+        else
+            return naidi(node->r,d);
+    }
+};
 int main(){
-    int n,m,b;
-    cin>>n>>m;
-    tree* a=new tree();
+    int n,a;
+    cin>>n;
+    tree *t=new tree();
     for(int i=0;i<n;i++){
-        cin>>b;
-        a->root=a->insert(a->root,b);
+        cin>>a;
+        t->root=t->insert(t->root,a);
     }
-    Node* root=a->root;
-    string s;
-    while(m--){
-        cin>>s;
-        if(proverka(root,s)) cout<<"YES"<<endl;
-        else cout<<"NO"<<endl;
-    }
+    cin>>a;
+    cout<<t->sz(t->naidi(t->root,a));
 }

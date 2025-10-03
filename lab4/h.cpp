@@ -31,32 +31,21 @@ class tree{
         return node;
     }
 };
-bool proverka(Node* root,string s){
-    for(int i=0;i<s.size();i++){
-        if(s[i]=='L'){
-            if(root->l==NULL) return false;
-            else root=root->l;
-        }
-        else{
-            if(root->r==NULL) return false;
-            else root=root->r;
-        }
-    }
-    return true;
+int solve(Node* node,int &a){
+    if(node==NULL)
+        return 0;
+    a+=node->data+solve(node->r,a);
+    cout<<a<<' ';
+    return solve(node->l,a);
 }
 int main(){
-    int n,m,b;
-    cin>>n>>m;
-    tree* a=new tree();
+    int n,a;
+    cin>>n;
+    tree* t=new tree();
     for(int i=0;i<n;i++){
-        cin>>b;
-        a->root=a->insert(a->root,b);
+        cin>>a;
+        t->root=t->insert(t->root,a);
     }
-    Node* root=a->root;
-    string s;
-    while(m--){
-        cin>>s;
-        if(proverka(root,s)) cout<<"YES"<<endl;
-        else cout<<"NO"<<endl;
-    }
+    a=0;
+    solve(t->root,a);
 }
